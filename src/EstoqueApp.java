@@ -347,12 +347,12 @@ public class EstoqueApp extends JFrame {
     }
 
     private double valorMonetarioDaColuna(int linha, int coluna) {
-        String texto = modeloTabela.getValueAt(linha, coluna).toString()
-                .replace("R$", "")
-                .trim()
-                .replace(".", "")
-                .replace(",", ".");
-        return Double.parseDouble(texto);
+        try {
+            String texto = modeloTabela.getValueAt(linha, coluna).toString();
+            return java.text.NumberFormat.getCurrencyInstance(new java.util.Locale("pt", "BR")).parse(texto).doubleValue();
+        } catch (java.text.ParseException e) {
+            return 0.0;
+        }
     }
 
     private String formatarMoeda(double valor) {
